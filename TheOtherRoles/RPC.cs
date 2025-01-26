@@ -64,6 +64,7 @@ namespace TheOtherRoles
         Thief,
         Bomber,
         Yoyo,
+        Echo,
         Crewmate,
         Impostor,
         // Modifier ---
@@ -391,6 +392,9 @@ namespace TheOtherRoles
                         break;
                     case RoleId.Yoyo:
                         Yoyo.yoyo = player;
+                        break;
+                    case RoleId.Echo:
+                        Echo.echo = player;
                         break;
                     }
                     if (AmongUsClient.Instance.AmHost && Helpers.roleCanUseVents(player) && !player.Data.Role.IsImpostor) {
@@ -745,6 +749,7 @@ namespace TheOtherRoles
             if (player == SecurityGuard.securityGuard) SecurityGuard.clearAndReload();
             if (player == Medium.medium) Medium.clearAndReload();
             if (player == Trapper.trapper) Trapper.clearAndReload();
+            if (player == Echo.echo) Echo.clearAndReload();
 
             // Impostor roles
             if (player == Morphling.morphling) Morphling.clearAndReload();
@@ -1049,6 +1054,13 @@ namespace TheOtherRoles
                     else if (dyingLoverPartner != null && MeetingHudPatch.guesserCurrentTarget == dyingLoverPartner.PlayerId)
                         MeetingHudPatch.guesserUIExitButton.OnClick.Invoke();
                 }
+            }
+
+            if (guesser != null && Echo.echo != null && PlayerControl.LocalPlayer == Echo.echo) {
+                string msg = "The " + RoleInfo.GetRolesString(guesser, false, false, true).Replace(" (Guesser)", "") + " caused " + dyingTarget.Data.PlayerName + " (the " + RoleInfo.GetRolesString(dyingTarget, false, false, true).Replace(" (Guesser)", "") + ") to die!";
+                if (Echo.mode == 1) msg = "The " + RoleInfo.GetRolesString(guesser, false, false, true).Replace(" (Guesser)", "") + " caused " + dyingTarget.Data.PlayerName + " to die!";
+                if (Echo.mode == 2) msg = dyingTarget.Data.PlayerName + " was " + RoleInfo.GetRolesString(dyingTarget, false, false, true).Replace(" (Guesser)", "");
+                FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(Echo.echo, msg);
             }
 
 

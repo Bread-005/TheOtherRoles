@@ -266,6 +266,12 @@ namespace TheOtherRoles {
         public static CustomOption yoyoAdminTableCooldown;
         public static CustomOption yoyoSilhouetteVisibility;
 
+        public static CustomOption echoSpawnRate;
+        public static CustomOption echoMode;
+        public static CustomOption echoShowsFlash;
+        public static CustomOption echoMinFlashDelay;
+        public static CustomOption echoMaxFlashDelay;
+        public static CustomOption echoLearnsAdditionalInfo;
 
 
         public static CustomOption modifiersAreHidden;
@@ -687,6 +693,13 @@ namespace TheOtherRoles {
             trapperAnonymousMap = CustomOption.Create(452, Types.Crewmate, "Show Anonymous Map", false, trapperSpawnRate);
             trapperInfoType = CustomOption.Create(453, Types.Crewmate, "Trap Information Type", new string[] { "Role", "Good/Evil Role", "Name" }, trapperSpawnRate);
             trapperTrapDuration = CustomOption.Create(454, Types.Crewmate, "Trap Duration", 5f, 1f, 15f, 1f, trapperSpawnRate);
+
+            echoSpawnRate = CustomOption.Create(490, Types.Crewmate, cs(Echo.color, "Echo"), rates, null, true);
+            echoMode = CustomOption.Create(491, Types.Crewmate, "Echo Role Info", new string[] { "Guesser큦 + Guessee큦 Role", "Guesser큦 Role", "Guessee큦 Role" }, echoSpawnRate);
+            echoShowsFlash = CustomOption.Create(492, Types.Crewmate, "Echo Shows Flash When They Die", true, echoSpawnRate);
+            echoMinFlashDelay = CustomOption.Create(493, Types.Crewmate, "Min Flash Delay", 3f, 0f, 20f, 1f, echoSpawnRate);
+            echoMaxFlashDelay = CustomOption.Create(494, Types.Crewmate, "Max Flash Delay", 3f, 0f, 20f, 1f, echoSpawnRate);
+            echoLearnsAdditionalInfo = CustomOption.Create(495, Types.Crewmate, "Echo learns additional Info", false, echoSpawnRate);
 
             // Modifier (1000 - 1999)
             modifiersAreHidden = CustomOption.Create(1009, Types.Modifier, cs(Color.yellow, "VIP, Bait & Bloody Are Hidden"), true, null, true, heading: cs(Color.yellow, "Hide After Death Modifiers"));

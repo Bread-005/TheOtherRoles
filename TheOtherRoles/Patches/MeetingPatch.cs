@@ -11,6 +11,7 @@ using TheOtherRoles.Utilities;
 using UnityEngine;
 using Innersloth.Assets;
 using TMPro;
+using TheOtherRoles.CustomGameModes;
 
 namespace TheOtherRoles.Patches {
     [HarmonyPatch]
@@ -751,6 +752,17 @@ namespace TheOtherRoles.Patches {
                             }
                         })));
                     }
+                }
+
+                //add Echo additional Info
+                if (Echo.echo != null && (PlayerControl.LocalPlayer == Echo.echo || Helpers.shouldShowGhostInfo()) && !Echo.echo.Data.IsDead && Echo.learnsAdditionalGuesserInfo) {
+                    int guesserCount = 0;
+                    foreach (PlayerControl player in PlayerControl.AllPlayerControls) {
+                        if (player.Data.IsDead) continue;
+                        if (!GuesserGM.isGuesser(player.PlayerId)) continue;
+                        guesserCount++;
+                    }
+                    FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(Echo.echo, "There are " + guesserCount + " Guessers alive");
                 }
 
                 if (PlayerControl.LocalPlayer.Data.IsDead && output != "") FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{output}");
