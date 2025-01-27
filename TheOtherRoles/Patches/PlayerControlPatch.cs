@@ -1180,9 +1180,9 @@ namespace TheOtherRoles.Patches {
                         }
                         string role = RoleList.Count > 0 ? RoleList[new System.Random().Next(0, RoleList.Count)] : "";
 
-                        msg = "Body Report: There are " + crewmateGuesserCount + " Crewmate Guesser alive \n" +
-                            "There are " + imposterGuesserCount + " Imposter Guesser alive \n" +
-                            "There are " + neutralGuesserCount + " Neutral Guesser alive \n" +
+                        msg = "Body Report: There " + (crewmateGuesserCount == 1 ? "is " : "are ") + crewmateGuesserCount + " Crewmate Guesser" + (crewmateGuesserCount == 1 ? "" : "s") + " alive \n" +
+                            "There " + (imposterGuesserCount == 1 ? "is " : "are ") + imposterGuesserCount + " Imposter Guesser" + (imposterGuesserCount == 1 ? "" : "s") + " alive \n" +
+                            "There " + (neutralGuesserCount == 1 ? "is " : "are ") + neutralGuesserCount + " Neutral Guesser" + (neutralGuesserCount == 1 ? "" : "s") +  " alive \n" +
                             (role.Length > 0 ? "One of them is the " + role : "");
                     }
 

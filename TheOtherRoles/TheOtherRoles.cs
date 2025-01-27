@@ -1849,7 +1849,7 @@ namespace TheOtherRoles
 
     public static class Echo {
         public static PlayerControl echo = null;
-        public static Color color = new Color32(204, 204, 0, byte.MaxValue);
+        public static Color color = new Color32(125, 125, 9, byte.MaxValue);
         public static int mode = 0; //0 = Both; 1 = Guesser´s Role; 2 = Guessee´s Role
         public static bool showFlash = false;
         public static bool learnsAdditionalGuesserInfo = false;

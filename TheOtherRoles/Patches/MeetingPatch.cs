@@ -762,7 +762,7 @@ namespace TheOtherRoles.Patches {
                         if (!GuesserGM.isGuesser(player.PlayerId)) continue;
                         guesserCount++;
                     }
-                    FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(Echo.echo, "There are " + guesserCount + " Guessers alive");
+                    FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(Echo.echo, "There " + (guesserCount == 1 ? "is " : "are ") + guesserCount + " Guesser" + (guesserCount == 1 ? "" : "s") + " alive");
                 }
 
                 if (PlayerControl.LocalPlayer.Data.IsDead && output != "") FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{output}");
