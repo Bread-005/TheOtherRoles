@@ -1372,7 +1372,7 @@ namespace TheOtherRoles.Patches {
 
                 FastDestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(flashDelay, new Action<float>((p) => {
                     if (p == 1f) {
-                        Helpers.showFlash(Echo.color,2f);
+                        Helpers.showFlash(Echo.color,2f,"Echo Died");
                     }
                 })));
             }
