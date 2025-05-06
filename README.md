@@ -42,6 +42,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.11.26| v4.8.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.8.0/TheOtherRoles.zip)
 | 2024.11.26| v4.7.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.7.0/TheOtherRoles.zip)
 | 2024.6.18| v4.6.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.6.0/TheOtherRoles.zip)
 
@@ -135,6 +136,18 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Changelog
 <details>
   <summary>Click to show the Changelog</summary>
+  
+**Version 4.8.0**
+- Added an optional Role Draft mode, where players can select their role out of some roles that are shown to them.
+- Added a new option to allow the medic to shift the medic shield as well - no more invincible medics.
+- Added partial key rebinding - all kill buttons will now use the vanilla kill button shortcut, same for vent and each roles first ability.
+- Fixed the way options view panel to match vanilla changes
+- Fixed options not showing/hiding sub-options when switching Presets
+- Fixed a bug where voting the witch would not save the target
+- Fixed a some bugs with the trapper, bomber and portal
+- Fixed a bug in PropHunt where you players could not transform into props
+- Fixed the summary button for the last game appearing outside the lobby sometimes
+- Changed the positioning of the ping tracker in meetings
 
 **Version 4.7.0**
 - Updated to Among Us version 2024.11.26 (Vanilla Updates)
@@ -904,9 +917,11 @@ Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 [TheEpicRoles](https://github.com/LaicosVK/TheEpicRoles) - Idea for the first kill shield (partly) and the tabbed option menu (fully + some code), by **LaicosVK** **DasMonschta** **Nova**\
 [Ninja](#ninja), [Thief](#thief), [Lawyer](#lawyer) / [Pursuer](#pursuer), [Deputy](#deputy), [Portalmaker](#portalmaker), [Guesser Modifier](#guesser-modifier) - Idea: [K3ndo](https://github.com/K3ndoo) ; Developed by [Gendelo](https://github.com/gendelo3) & [Mallöris](https://github.com/Mallaris) \
 [ugackMiner53](https://github.com/ugackMiner53/PropHunt) - Idea and core code for the Prop Hunt game mode
+Role Draft Music: [Unreal Superhero 3 by Kenët & Rez](https://www.youtube.com/watch?v=9STiQ8cCIo0)
 
 # Settings
 The mod adds a few new settings to Among Us (in addition to the role settings):
+- **Enable Role Draft:** see [Role Draft](#role)
 - **Any Player Can Stop The Start:** If turned off, only the host can stop the game start. If on, all players can do it. Non-hosts stopping the start will send a chat message indicating who stopped it.
 - **Number of Crewmates:** The number of Crewmate roles can be set inside a lobby.
 - **Fill Crewmate Roles (Ignores Min/Max):** Everyone will get a role, even if the settings say there would be plain Crewmates (needs enough roles over 0%).
@@ -1004,7 +1019,21 @@ The count you set will only be reached, if there are enough Crewmates/Impostors 
 **Example:**\
 Settings: 2 special Crewmate roles, Snitch: 100%, Hacker: 10%, Tracker: 30%\
 Result: Snitch is assigned, then one role out of the pool [Hacker, Tracker, Tracker, Tracker] is being selected\
-Note: Changing the settings to Hacker: 20%, Tracker: 60% would statistically result in the same outcome .
+Note: Changing the settings to Hacker: 20%, Tracker: 60% would statistically result in the same outcome.
+
+## Role Draft
+
+If the Role Draft is enabled, at the beginning of the game, all players will be allowed to select a role in random order, one after the other. The Role Draft respects the Min/Max Settings for roles for each faction and tries to enforce spawning roles which are set to 100%.
+If not enough roles are available, some players will be able to select Crewmate/Impostor (plain roles). The role draft screen has options to show the picked roles on the left side of the screen. If a player fails to pick a role after a set amount of time, a random available role (including also the roles that are not displayed) will be assigned instead. 
+
+### Game Options
+| Name | Description |
+|----------|:-------------:|
+| Max Amount of Roles To Choose From | If possible, the game will show this amount of roles to choose from to each player
+| Time For Selection | Time until a random role will be selected and assigned
+| Show Picked Roles | If off, the picks will be shown  
+| Hide Impostor Roles | If the roles are shown, hide the impostor roles
+| Hide Neutral Roles | If the roles are shown, hide all neutral roles
 
 
 ## Mafia
@@ -1113,7 +1142,7 @@ Depending on the options they can also erase them (Impostors will lose their spe
 ## Trickster
 ### **Team: Impostors**
 The Trickster is an Impostor that can place 3 jack-in-the-boxes that are invisible at first to other players.\
-If the Trickster has placed all of their boxes they will be converted into a vent network usable only by the Trickster themself, but the boxes are revealed to the others.\
+If the Trickster has placed all of their boxes they will be converted into a vent network after the next Meeting, usable only by the Trickster themself, but the boxes are also revealed to the others.\
 If the boxes are converted to a vent network, the Trickster gains a new ability "Lights out" to limit the visibility of Non-Impostors, that cannot be fixed by other players. Lights are automatically restored after a while.\
 \
 **NOTE:**
