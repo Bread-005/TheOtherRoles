@@ -823,7 +823,8 @@ namespace TheOtherRoles {
             var relevantOptions = options.Where(x => x.type == optionType).ToList();
             if (TORMapOptions.gameMode == CustomGamemodes.Guesser) // Exclude guesser options in neutral mode
                 relevantOptions = relevantOptions.Where(x => !(new List<int> { 310, 311, 312, 313, 314, 315, 316, 317, 318 }).Contains(x.id)).ToList();
-            if (TORMapOptions.gameMode != CustomGamemodes.Guesser) relevantOptions = relevantOptions.Where(x => !(new List<int> { 490, 491, 492, 493, 494, 495 }).Contains(x.id)).ToList();
+            if (TORMapOptions.gameMode != CustomGamemodes.Guesser) // Only add Echo options in Guesser mode
+                relevantOptions = relevantOptions.Where(x => !(new List<int> { 490, 491, 492, 493, 494, 495 }).Contains(x.id)).ToList();
             createSettings(torSettingsGOM, relevantOptions);
         }
 

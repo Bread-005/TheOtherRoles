@@ -755,6 +755,8 @@ namespace TheOtherRoles.Patches {
                     }
                 }
 
+                if (PlayerControl.LocalPlayer.Data.IsDead && output != "") FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{output}");
+
                 //add Echo additional Info
                 if (Echo.echo != null && (PlayerControl.LocalPlayer == Echo.echo || Helpers.shouldShowGhostInfo()) && !Echo.echo.Data.IsDead && Echo.learnsAdditionalGuesserInfo) {
                     int guesserCount = 0;
@@ -765,8 +767,6 @@ namespace TheOtherRoles.Patches {
                     }
                     FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(Echo.echo, "There " + (guesserCount == 1 ? "is " : "are ") + guesserCount + " Guesser" + (guesserCount == 1 ? "" : "s") + " alive");
                 }
-
-                if (PlayerControl.LocalPlayer.Data.IsDead && output != "") FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{output}");
 
                 Trapper.playersOnMap = new ();
                 Snitch.playerRoomMap = new Dictionary<byte, byte>();
