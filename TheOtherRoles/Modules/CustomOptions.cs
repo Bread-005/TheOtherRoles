@@ -463,6 +463,7 @@ namespace TheOtherRoles {
 
             if (TORMapOptions.gameMode == CustomGamemodes.Guesser) // Exclude guesser options in neutral mode
                 relevantOptions = relevantOptions.Where(x => !(new List<int> { 310, 311, 312, 313, 314, 315, 316, 317, 318 }).Contains(x.id)).ToList();
+            if (TORMapOptions.gameMode != CustomGamemodes.Guesser) relevantOptions = relevantOptions.Where(x => !(new List<int> { 490, 491, 492, 493, 494, 495}).Contains(x.id)).ToList();
 
             for (int j = 0; j < __instance.settingsInfo.Count; j++) {
                 __instance.settingsInfo[j].gameObject.Destroy();
@@ -822,6 +823,7 @@ namespace TheOtherRoles {
             var relevantOptions = options.Where(x => x.type == optionType).ToList();
             if (TORMapOptions.gameMode == CustomGamemodes.Guesser) // Exclude guesser options in neutral mode
                 relevantOptions = relevantOptions.Where(x => !(new List<int> { 310, 311, 312, 313, 314, 315, 316, 317, 318 }).Contains(x.id)).ToList();
+            if (TORMapOptions.gameMode != CustomGamemodes.Guesser) relevantOptions = relevantOptions.Where(x => !(new List<int> { 490, 491, 492, 493, 494, 495 }).Contains(x.id)).ToList();
             createSettings(torSettingsGOM, relevantOptions);
         }
 
@@ -981,6 +983,10 @@ namespace TheOtherRoles {
         private static string buildOptionsOfType(CustomOption.CustomOptionType type, bool headerOnly) {
             StringBuilder sb = new StringBuilder("\n");
             var options = CustomOption.options.Where(o => o.type == type);
+            if (TORMapOptions.gameMode != CustomGamemodes.Guesser) {
+                List<int> remove = new List<int> { 490, 491, 492, 493, 494, 495 };
+                options = options.Where(x => !remove.Contains(x.id));
+            }
             if (TORMapOptions.gameMode == CustomGamemodes.Guesser) {
                 if (type == CustomOption.CustomOptionType.General)
                     options = CustomOption.options.Where(o => o.type == type || o.type == CustomOption.CustomOptionType.Guesser);

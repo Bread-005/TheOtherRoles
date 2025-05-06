@@ -158,6 +158,10 @@ namespace TheOtherRoles.Patches
             }
             crewSettings.Add((byte)RoleId.SecurityGuard, CustomOptionHolder.securityGuardSpawnRate.getSelection());
 
+            if (isGuesserGamemode) {
+                crewSettings.Add((byte)RoleId.Echo, CustomOptionHolder.echoSpawnRate.getSelection());
+            }
+
             return new RoleAssignmentData {
                 crewmates = crewmates,
                 impostors = impostors,

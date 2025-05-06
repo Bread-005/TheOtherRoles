@@ -869,9 +869,6 @@ namespace TheOtherRoles.Patches {
             setPlayerOutline(Thief.currentTarget, Thief.color);
         }
 
-
-
-
         static void baitUpdate() {
             if (!Bait.active.Any()) return;
 
@@ -1140,11 +1137,12 @@ namespace TheOtherRoles.Patches {
     {
         static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]NetworkedPlayerInfo target)
         {
-            // Medic or Detective report
+            // Medic, Detective or Echo report
             bool isMedicReport = Medic.medic != null && Medic.medic == PlayerControl.LocalPlayer && __instance.PlayerId == Medic.medic.PlayerId;
             bool isDetectiveReport = Detective.detective != null && Detective.detective == PlayerControl.LocalPlayer && __instance.PlayerId == Detective.detective.PlayerId;
-            if (isMedicReport || isDetectiveReport)
-            {
+            bool isEchoReport = Echo.echo != null && Echo.echo == PlayerControl.LocalPlayer && __instance.PlayerId == Echo.echo.PlayerId && Echo.learnsAdditionalGuesserInfo;
+
+            if (isMedicReport || isDetectiveReport || isEchoReport) {
                 DeadPlayer deadPlayer = deadPlayers?.Where(x => x.player?.PlayerId == target?.PlayerId)?.FirstOrDefault();
 
                 if (deadPlayer != null && deadPlayer.killerIfExisting != null) {
@@ -1153,15 +1151,39 @@ namespace TheOtherRoles.Patches {
 
                     if (isMedicReport) {
                         msg = $"Body Report: Killed {Math.Round(timeSinceDeath / 1000)}s ago!";
-                    } else if (isDetectiveReport) {
+                    }
+                    else if (isDetectiveReport) {
                         if (timeSinceDeath < Detective.reportNameDuration * 1000) {
-                            msg =  $"Body Report: The killer appears to be {deadPlayer.killerIfExisting.Data.PlayerName}!";
-                        } else if (timeSinceDeath < Detective.reportColorDuration * 1000) {
+                            msg = $"Body Report: The killer appears to be {deadPlayer.killerIfExisting.Data.PlayerName}!";
+                        }
+                        else if (timeSinceDeath < Detective.reportColorDuration * 1000) {
                             var typeOfColor = Helpers.isLighterColor(deadPlayer.killerIfExisting) ? "lighter" : "darker";
-                            msg =  $"Body Report: The killer appears to be a {typeOfColor} color!";
-                        } else {
+                            msg = $"Body Report: The killer appears to be a {typeOfColor} color!";
+                        }
+                        else {
                             msg = $"Body Report: The corpse is too old to gain information from!";
                         }
+                    }
+                    else if (isEchoReport) {
+                        int crewmateGuesserCount = 0;
+                        int imposterGuesserCount = 0;
+                        int neutralGuesserCount = 0;
+                        List<string> RoleList = new List<string>();
+
+                        foreach (PlayerControl player in PlayerControl.AllPlayerControls) {
+                            if (player.Data.IsDead) continue;
+                            if (!GuesserGM.isGuesser(player.PlayerId)) continue;
+                            RoleList.Add(RoleInfo.GetRolesString(player, true, false, true));
+                            if (!Helpers.isEvil(player)) crewmateGuesserCount++;
+                            if (player.Data.Role.IsImpostor) imposterGuesserCount++;
+                            if (Helpers.isNeutral(player)) neutralGuesserCount++;
+                        }
+                        string role = RoleList.Count > 0 ? RoleList[new System.Random().Next(0, RoleList.Count)] : "";
+
+                        msg = "Body Report: There " + (crewmateGuesserCount == 1 ? "is " : "are ") + crewmateGuesserCount + " Crewmate Guesser" + (crewmateGuesserCount == 1 ? "" : "s") + " alive \n" +
+                            "There " + (imposterGuesserCount == 1 ? "is " : "are ") + imposterGuesserCount + " Imposter Guesser" + (imposterGuesserCount == 1 ? "" : "s") + " alive \n" +
+                            "There " + (neutralGuesserCount == 1 ? "is " : "are ") + neutralGuesserCount + " Neutral Guesser" + (neutralGuesserCount == 1 ? "" : "s") +  " alive \n" +
+                            (role.Length > 0 ? "One of them is the " + role : "");
                     }
 
                     if (!string.IsNullOrWhiteSpace(msg))
@@ -1341,6 +1363,18 @@ namespace TheOtherRoles.Patches {
                     UnityEngine.Object.Destroy(a.Value);
                     MapBehaviourPatch.herePoints.Remove(a.Key);
                 }
+            }
+
+            //Echo Flash
+            if (Echo.echo != null && target == Echo.echo && Echo.showFlash) {
+                float flashDelay = new System.Random().Next((int)CustomOptionHolder.echoMinFlashDelay.getFloat(), (int)CustomOptionHolder.echoMaxFlashDelay.getFloat() + 1);
+                if (CustomOptionHolder.echoMinFlashDelay.getFloat() > CustomOptionHolder.echoMaxFlashDelay.getFloat()) flashDelay = CustomOptionHolder.echoMaxFlashDelay.getFloat();
+
+                FastDestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(flashDelay, new Action<float>((p) => {
+                    if (p == 1f) {
+                        Helpers.showFlash(Echo.color,2f,"Echo Died");
+                    }
+                })));
             }
         }
     }

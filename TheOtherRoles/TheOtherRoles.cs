@@ -63,6 +63,7 @@ namespace TheOtherRoles
             Trapper.clearAndReload();
             Bomber.clearAndReload();
             Yoyo.clearAndReload();
+            Echo.clearAndReload();
 
             // Modifier
             Bait.clearAndReload();
@@ -1847,6 +1848,22 @@ namespace TheOtherRoles
         }
     }
 
+    public static class Echo {
+        public static PlayerControl echo = null;
+        public static Color color = new Color32(125, 125, 9, byte.MaxValue);
+        public static int mode = 0; //0 = Both; 1 = Guesser´s Role; 2 = Guessee´s Role
+        public static bool showFlash = false;
+        public static bool learnsAdditionalGuesserInfo = false;
+
+        public static void clearAndReload() {
+            echo = null;
+            mode = CustomOptionHolder.echoMode.getSelection();
+            showFlash = CustomOptionHolder.echoShowsFlash.getBool();
+            learnsAdditionalGuesserInfo = CustomOptionHolder.echoLearnsAdditionalInfo.getBool();
+        }
+    }
+
+
     // Modifier
     public static class Bait {
         public static List<PlayerControl> bait = new List<PlayerControl>();
@@ -2126,6 +2143,9 @@ namespace TheOtherRoles
             } else if (Trapper.trapper != null && Trapper.trapper == player2) {
                 if (repeat) shiftRole(player2, player1, false);
                 Trapper.trapper = player1;
+            } else if (Echo.echo != null && Echo.echo == player2) {
+                if (repeat) shiftRole(player2, player1, false);
+                Echo.echo = player1;
             }
         }
 
